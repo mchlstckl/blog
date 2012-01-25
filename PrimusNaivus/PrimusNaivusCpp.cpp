@@ -13,10 +13,10 @@ double diffclock(clock_t clock1, clock_t clock2)
 
 bool is_prime(int x, vector<int> &primes)
 {
-	for (vector<int>::iterator it = primes.begin(); it != primes.end(); ++it)
-		if (x % *it == 0)
-			return false;
-	return true;
+    for (vector<int>::iterator it = primes.begin(); it != primes.end(); ++it)
+        if (x % *it == 0)
+            return false;
+    return true;
 }
 
 vector<int> find_primes(int index)
