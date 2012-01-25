@@ -1,5 +1,5 @@
 /*
-Takes around 940ms to complete for 2000 primes
+Takes around 940ms to complete for 5555 primes
  */
 
 def isPrime(x, primes) {
@@ -18,7 +18,7 @@ def findPrimes(index) {
 findPrimes(500)
 
 tic = System.nanoTime()
-primes = findPrimes(2000)
+primes = findPrimes(5555)
 toc = System.nanoTime() - tic
 
 println("Elapsed time: " + (toc / 1e6) + "msecs")

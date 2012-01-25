@@ -27,7 +27,7 @@ public class PrimusNaivusJava {
         findPrimes(500);
 
         long tic = System.nanoTime();
-        List<Integer> primes = findPrimes(2000);
+        List<Integer> primes = findPrimes(5555);
         long toc = System.nanoTime() - tic;
 
         System.out.println("Elapsed time: " + (toc / 1e6) + "msecs");

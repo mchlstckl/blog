@@ -18,7 +18,7 @@ def find_primes(index)
 end
 
 tic = Time.now
-primes = find_primes(2000)
+primes = find_primes(5555)
 toc = Time.now - tic
 
 puts "Elapsed time: #{toc * 1000}msecs"

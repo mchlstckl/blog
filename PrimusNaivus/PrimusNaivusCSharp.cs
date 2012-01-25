@@ -26,7 +26,7 @@ namespace PrimuNaivusCSharp
 		public static void Main (string[] args)
 		{
 			var watch = Stopwatch.StartNew();
-			var primes = findPrimes(2000);
+			var primes = findPrimes(5555);
 			watch.Stop();
 			
 			Console.WriteLine("Elapsed time: " + watch.ElapsedMilliseconds + "msecs");
@@ -34,3 +34,4 @@ namespace PrimuNaivusCSharp
 		}
 	}
 }
+

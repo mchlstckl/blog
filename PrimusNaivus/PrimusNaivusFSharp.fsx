@@ -1,4 +1,4 @@
-// 280 ms for 2000 primes
+// 280 ms for 5555 primes
 
 let time f v = 
     let watch = new System.Diagnostics.Stopwatch()
@@ -26,5 +26,5 @@ let findPrimes index =
 // warm-up
 findPrimes(500)
 
-let primes = time findPrimes 2000
+let primes = time findPrimes 5555
 printfn "%O" (List.head primes)

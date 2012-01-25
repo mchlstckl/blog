@@ -1,5 +1,5 @@
 /* 
- * Takes around 26ms to complete for 2000 primes
+ * Takes around 26ms to complete for 5555 primes
  */
 
 #include <iostream>
@@ -15,7 +15,7 @@ double diffclock(clock_t clock1, clock_t clock2)
     return diffms;
 } 
 
-bool is_prime(int x, vector<int> primes)
+bool is_prime(int x, vector<int> &primes)
 {
 	for (vector<int>::iterator it = primes.begin(); it != primes.end(); ++it)
 		if (x % *it == 0)
@@ -38,7 +38,7 @@ int main(int argc, char** argv)
     find_primes(500);
 
     clock_t tic = clock();
-    vector<int> primes = find_primes(2000);
+    vector<int> primes = find_primes(5555);
     clock_t toc = clock();
 
     double elapsed = diffclock(toc, tic);

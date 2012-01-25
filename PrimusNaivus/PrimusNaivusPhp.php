@@ -20,7 +20,7 @@ function find_primes($index) {
 find_primes(500);
 
 $tic = microtime(true);
-$primes = find_primes(2000);
+$primes = find_primes(5555);
 $ms = (microtime(true) - $tic) / 1000;
 
 print "Elapsed time: $ms msecs\n";

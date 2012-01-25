@@ -35,7 +35,7 @@ function findPrimes(index) {
 findPrimes(500)
 
 var primes = time(function() {
-    return findPrimes(2000)
+    return findPrimes(5555)
 })
 
 println(primes.pop())

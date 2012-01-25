@@ -20,7 +20,7 @@ def find_primes(index):
 find_primes(500)
 
 tic = time.clock()
-primes = find_primes(2000)
+primes = find_primes(5555)
 toc = time.clock() - tic
 
 print "Elapsed time: ", str(toc * 1000), "msecs"

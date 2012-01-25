@@ -1,4 +1,4 @@
-;; Takes around 530ms to complete for 2000 primes
+;; Takes around 530ms to complete for 5555 primes
 
 (defn prime? [x primes]
   (->> primes
@@ -18,5 +18,5 @@
 (find-primes 500)
 
 ;; benchmark
-(println (time (last (find-primes 2000))))
+(println (time (last (find-primes 5555))))
 

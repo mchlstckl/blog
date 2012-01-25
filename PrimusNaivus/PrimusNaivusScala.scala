@@ -1,5 +1,5 @@
 /*
- Takes around 295ms to complete for 2000 primes
+ Takes around 295ms to complete for 5555 primes
 */
 
 object PrimusNaivusScala {
@@ -24,7 +24,7 @@ object PrimusNaivusScala {
     findPrimes(500)
 
     val tic = System.nanoTime()
-    val primes = findPrimes(2000)
+    val primes = findPrimes(5555)
     val toc = System.nanoTime() - tic
 
     println("Elapsed time: " + (toc / 1e6) + "msecs")

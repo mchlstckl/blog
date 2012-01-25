@@ -19,7 +19,7 @@ class PrimusNaivusFan {
     static Void main() {
 
         tic := DateTime.now
-        primes := findPrimes(2000)
+        primes := findPrimes(5555)
         toc := DateTime.now - tic
         echo("Elapsed time: " + toc)
         echo(primes.last)
