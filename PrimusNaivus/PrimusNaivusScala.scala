@@ -1,7 +1,3 @@
-/*
- Takes around 295ms to complete for 5555 primes
-*/
-
 object PrimusNaivusScala {
 
   def isPrime(x: Int, primes: List[Int]) = !primes.exists(x % _ == 0)

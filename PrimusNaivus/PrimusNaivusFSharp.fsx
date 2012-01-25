@@ -1,11 +1,9 @@
-// 280 ms for 5555 primes
-
 let time f v = 
     let watch = new System.Diagnostics.Stopwatch()
     watch.Start()
     let result = f v
     watch.Stop()
-    printfn "Elapsed time: %f ms" (watch.Elapsed.TotalMilliseconds)
+    printfn "Elapsed time: %f msecs" (watch.Elapsed.TotalMilliseconds)
     result
 
 let isPrime x primes = 

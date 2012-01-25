@@ -1,6 +1,3 @@
-# ruby:     1795ms
-# jruby:    1440ms
-
 def is_prime(x, primes)
     return nil == primes.index {|p| x % p == 0}
 end

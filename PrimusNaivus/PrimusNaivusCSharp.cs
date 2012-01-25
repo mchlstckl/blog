@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Diagnostics;
 
-//	mono:	160ms
-
 namespace PrimuNaivusCSharp
 {
 	class MainClass
@@ -29,7 +27,7 @@ namespace PrimuNaivusCSharp
 			var primes = findPrimes(5555);
 			watch.Stop();
 			
-			Console.WriteLine("Elapsed time: " + watch.ElapsedMilliseconds + "msecs");
+			Console.WriteLine("Elapsed time: " + watch.ElapsedMilliseconds + " msecs");
 			Console.WriteLine(primes.Last());
 		}
 	}

@@ -1,5 +1,3 @@
-;; Takes around 530ms to complete for 5555 primes
-
 (defn prime? [x primes]
   (->> primes
     (some (fn [p] (== 0 (mod x p))))

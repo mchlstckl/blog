@@ -1,7 +1,3 @@
-/* 
- * Takes around 26ms to complete for 5555 primes
- */
-
 #include <iostream>
 #include <vector>
 #include <time.h>
@@ -42,7 +38,7 @@ int main(int argc, char** argv)
     clock_t toc = clock();
 
     double elapsed = diffclock(toc, tic);
-    cout << "Elapsed time: " << elapsed << "msecs\n";
+    cout << "Elapsed time: " << elapsed << " msecs\n";
 	cout << primes.back() << "\n";
 
     return 0;

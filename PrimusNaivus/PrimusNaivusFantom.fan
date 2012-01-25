@@ -1,7 +1,3 @@
-#! /usr/bin/env fan
-
-// 900ms
-
 class PrimusNaivusFan {
 
     static Bool isPrime(Int x, Int[] primes) {

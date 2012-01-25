@@ -1,9 +1,3 @@
-/*
-Node:       30ms
-Jsc:        60ms
-jrunscript (java): 1800ms
-*/
-
 var println = typeof println == 'function' ? println : 
 			  typeof print == 'function' ? print :           
               typeof console == 'object' ? console.log :  
@@ -13,7 +7,7 @@ function time(fn) {
     var tic = new Date().getTime()
     var result = fn()
     var toc = new Date().getTime() - tic
-    println("Elapsed time: " + toc + "msecs")
+    println("Elapsed time: " + toc + " msecs")
     return result
 }
 

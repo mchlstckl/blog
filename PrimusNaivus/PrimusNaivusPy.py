@@ -1,7 +1,3 @@
-# Python:   795ms
-# Pypy:     325ms
-# Jython:   1345ms
-
 import time
 
 def is_prime(x, primes):

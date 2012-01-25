@@ -1,7 +1,3 @@
-/*
-38ms
- */
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +26,7 @@ public class PrimusNaivusJava {
         List<Integer> primes = findPrimes(5555);
         long toc = System.nanoTime() - tic;
 
-        System.out.println("Elapsed time: " + (toc / 1e6) + "msecs");
+        System.out.println("Elapsed time: " + (toc / 1e6) + " msecs");
 		System.out.println(primes.get(primes.size() - 1));
     }
 }
