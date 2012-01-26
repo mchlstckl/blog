@@ -1,0 +1,1 @@
+cat times.txt | perl -ne '$lang = "C++"; while (<>) { if (/^([^=]+) +=+/) { $lang = $1; next } if (/Elapsed time\D+([\d.]+)\D/) { $speed{$1} = $lang } } foreach (sort {$a<=>$b} keys %speed) { print "$speed{$_}: $_\n" }'
