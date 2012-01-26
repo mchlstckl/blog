@@ -21,7 +21,7 @@ find_primes(500);
 
 $tic = microtime(true);
 $primes = find_primes(5555);
-$ms = (microtime(true) - $tic) / 1000;
+$ms = (microtime(true) - $tic) * 1000;
 
 print "Elapsed time: $ms msecs\n";
 print array_pop($primes);
