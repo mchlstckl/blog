@@ -3,14 +3,14 @@
 // -------------------------------------------------------------------------
 
 var Game = {
-    delay: 17,					// around 60 fps -> 1000ms / 60 = 16.67
+    delay: 17,		// around 60 fps -> 1000ms / 60 = 16.67
     players: [],
     bricks: [],
     balls: [],
     score: 0,
     lives: 2,
-    ctx: null,					// 2D canvas context
-    screen: null				// canvas element
+    ctx: null,		// 2D canvas context
+    screen: null	// canvas element
 };
 
 // -------------------------------------------------------------------------
@@ -95,11 +95,15 @@ function Brick(x, y, n) {
     this.y = y;
     this.w = 50;
     this.h = 10;
-    this.c = '#F00';
     this.n = n;
+    this.c = '#F00';
 }
 
 Brick.prototype = new Box;
+Brick.prototype.draw = function (ctx) {
+    this.c = 'rgb(255,0,' + Math.min(255, (this.n * 80)) + ')';
+    Box.prototype.draw.call(this, ctx);
+};
 
 // -------------------------------------------------------------------------
 
@@ -108,7 +112,7 @@ function Player(x, y) {
     this.y = y;
     this.dx = 0.5;
     this.dir = 0;	// direction: -1 = left, 0 = stay, 1 = right
-    this.w = 200;
+    this.w = 100;
     this.h = 5;
     this.c = '#00F';
 }
@@ -123,12 +127,12 @@ Player.prototype.move = function (dt) {
 
 // -------------------------------------------------------------------------
 
-function elm(id) {
+function elem(id) {
     return document.getElementById(id);
 }
 
 function getScreen() {
-    var s = elm('screen');
+    var s = elem('screen');
     s.vmiddle = s.height / 2;
     s.hmiddle = s.width / 2;
     return s;
@@ -140,6 +144,10 @@ function getContext() {
 
 function sign(num) {
     return num < 0 ? -1 : 1;
+}
+
+function randInt(ceil) {
+    return Math.ceil((Math.random() * 1000) % ceil);
 }
 
 // -------------------------------------------------------------------------
@@ -290,7 +298,7 @@ function step(clock) {
     });
 
     // game state
-    elm('state').innerText = 'Score: ' + Game.score + ' Lives: ' + Game.lives;
+    elem('state').innerText = 'Score: ' + Game.score + ' Lives: ' + Game.lives;
 
     if (Game.balls.length == 0) {
         if (Game.lives <= 0) {
@@ -327,7 +335,7 @@ function startGame() {
 	
     for (var i = 10; i < screen.vmiddle; i += 30) 
         for (var j = 10; j < screen.width - 60; j += 60)
-            Game.bricks.push(new Brick(j, i, 1));
+            Game.bricks.push(new Brick(j, i, randInt(3)));
 
     Game.balls.push(new Ball(10, Game.screen.vmiddle, 0.3, 0.3));
     
@@ -340,7 +348,7 @@ function startGame() {
 }
 
 var loader = setInterval(function() {
-    if (elm('screen')) {
+    if (elem('screen')) {
         clearInterval(loader);
         startGame();
     }
