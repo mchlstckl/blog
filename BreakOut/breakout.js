@@ -8,6 +8,7 @@ var Game = {
     bricks: [],
     balls: [],
     score: 0,
+    lives: 2,
     ctx: null,					// 2D canvas context
     screen: null				// canvas element
 };
@@ -37,6 +38,9 @@ Box.prototype.left = function () {
 };
 Box.prototype.right = function () {
     return this.x + this.w;
+};
+Box.prototype.middle = function () {
+    return this.x + this.w / 2;
 };
 
 // -------------------------------------------------------------------------
@@ -134,6 +138,10 @@ function getContext() {
     return getScreen().getContext('2d');
 }
 
+function sign(num) {
+    return num < 0 ? -1 : 1;
+}
+
 // -------------------------------------------------------------------------
 
 function Clock() {
@@ -221,6 +229,7 @@ function step(clock) {
                 if (player.left() <= ball.x && ball.x <= player.right()) {
                     ball.move(-dt);
                     ball.dy = -ball.dy;
+                    ball.dx = sign(ball.x - player.middle()) * Math.abs(ball.dx);
                     ball.move(dt);
                 }
         });
@@ -281,7 +290,17 @@ function step(clock) {
     });
 
     // game state
-    elm('state').innerText = 'Score: ' + Game.score;
+    elm('state').innerText = 'Score: ' + Game.score + ' Lives: ' + Game.lives;
+
+    if (Game.balls.length == 0) {
+        if (Game.lives <= 0) {
+            alert("GAME OVER");
+            return;
+        } else {
+            Game.lives -= 1;
+            Game.balls.push(new Ball(10, Game.screen.vmiddle, 0.3, 0.3));
+        }
+    }
 
     var wait = Math.max(0, Game.delay - clock.elapsedTime());
 
@@ -309,10 +328,13 @@ function startGame() {
     for (var i = 10; i < screen.vmiddle; i += 30) 
         for (var j = 10; j < screen.width - 60; j += 60)
             Game.bricks.push(new Brick(j, i, 1));
-	
-    var ball = new Ball(10, Game.screen.vmiddle, 0.3, 0.3);
 
-    Game.balls.push(ball);
+    Game.balls.push(new Ball(10, Game.screen.vmiddle, 0.3, 0.3));
+    
+    // extra ball - weeeeee!  :D
+    setTimeout(function () {
+        Game.balls.push(new Ball(10, Game.screen.vmiddle, 0.3, 0.3));
+    }, 5000);
 
     step(new Clock());
 }
