@@ -290,7 +290,21 @@ function step(clock) {
     deadBricks.forEach(function (brick) {
         Game.bricks.splice(brick, 1);
     });
-    
+        
+    // render scene
+	
+    Game.bricks.forEach(function (brick) {
+        brick.draw(ctx);
+    });
+
+    Game.balls.forEach(function (ball) {
+        ball.draw(ctx);
+    });
+
+    Game.players.forEach(function (player) {
+        player.draw(ctx);
+    });   
+
     // game state
     
     elem('state').innerText = 'Score: ' + Game.score + ' Lives: ' + Game.lives;
@@ -309,20 +323,6 @@ function step(clock) {
             Game.balls.push(new Ball(10, Game.screen.vmiddle, 0.3, 0.3));
         }
     }
-
-    // render scene
-	
-    Game.bricks.forEach(function (brick) {
-        brick.draw(ctx);
-    });
-
-    Game.balls.forEach(function (ball) {
-        ball.draw(ctx);
-    });
-
-    Game.players.forEach(function (player) {
-        player.draw(ctx);
-    });   
 
     // prepare next step    
     
