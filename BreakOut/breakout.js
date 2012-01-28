@@ -108,6 +108,8 @@ Brick.prototype.draw = function (ctx) {
 // -------------------------------------------------------------------------
 
 function Player() {
+    this.x = 0;
+    this.y = 0;
     this.dx = 0.5;
     this.dir = 0;	// direction: -1 = left, 0 = stay, 1 = right
     this.w = 100;
