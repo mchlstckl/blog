@@ -307,7 +307,7 @@ function step(clock) {
 
     // game state
     
-    elem('state').innerText = 'Score: ' + Game.score + ' Lives: ' + Game.lives;
+    elem('state').innerHTML = 'Score: ' + Game.score + ' Lives: ' + Game.lives;
 
     if (Game.bricks.length === 0) {
         alert("YOU WIN!");
