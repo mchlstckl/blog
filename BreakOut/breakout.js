@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 // -------------------------------------------------------------------------
 
@@ -82,7 +82,7 @@ function Ball(x, y, dx, dy) {
     this.c = '#0F0';
 }
 
-Ball.prototype = new Circle;
+Ball.prototype = new Circle();
 Ball.prototype.move = function (dt) {
     this.x = this.x + this.dx * dt;
     this.y = this.y + this.dy * dt;
@@ -99,7 +99,7 @@ function Brick(x, y, n) {
     this.c = '#F00';
 }
 
-Brick.prototype = new Box;
+Brick.prototype = new Box();
 Brick.prototype.draw = function (ctx) {
     this.c = 'rgb(255,0,' + Math.min(255, (this.n * 80)) + ')';
     Box.prototype.draw.call(this, ctx);
@@ -107,9 +107,7 @@ Brick.prototype.draw = function (ctx) {
 
 // -------------------------------------------------------------------------
 
-function Player(x, y) {
-    this.x = x;
-    this.y = y;
+function Player() {
     this.dx = 0.5;
     this.dir = 0;	// direction: -1 = left, 0 = stay, 1 = right
     this.w = 100;
@@ -117,10 +115,10 @@ function Player(x, y) {
     this.c = '#00F';
 }
 
-Player.prototype = new Box;
+Player.prototype = new Box();
 Player.prototype.move = function (dt) {
-    if (this.dir == -1 && 0 < this.left() ||
-        this.dir == 1 && this.right() < Game.screen.width) {
+    if (this.dir === -1 && 0 < this.left() ||
+        this.dir === 1 && this.right() < Game.screen.width) {
         this.x = this.x + this.dir * this.dx * dt;
     }
 };
@@ -169,6 +167,7 @@ Clock.prototype.elapsedTime = function () {
 var Events = {
     init: function () {
         window.addEventListener('keydown', Events.onKeyDownEvent, true);
+        window.addEventListener('keyup', Events.onKeyUpEvent, true);
     },
     onKeyDownEvent: function (e) {
         switch (e.keyCode) {
@@ -178,8 +177,12 @@ var Events = {
             case 39:	// right arrow
                 Game.players[0].dir = 1;
                 break;
-            case 38:    // up arrow
-            case 40:    // down arrow
+        }
+    },
+    onKeyUpEvent: function (e) {
+        switch (e.keyCode) {
+            case 37:
+            case 39:
                 Game.players[0].dir = 0;
                 break;
         }
@@ -199,6 +202,8 @@ function step(clock) {
     // clear scene
     ctx.clearRect(0, 0, screen.width, screen.height); 
 
+    // move units    
+    
     Game.balls.forEach(function (ball) {
         ball.move(dt);
     });
@@ -208,6 +213,7 @@ function step(clock) {
     });
 	
     // check for collisions
+    
     var numBalls = Game.balls.length;
     for (var i = 0; i < numBalls; i++) {
         var ball = Game.balls[i];
@@ -257,7 +263,7 @@ function step(clock) {
                     Game.score += brick.n * 100;
                     brick.n -= 1;
                 }
-			
+
             // from right or left
             if (brick.top() <= ball.y && ball.y <= brick.bottom())
                 if (brick.left() <= ball.left() && ball.left() <= brick.right() ||
@@ -282,6 +288,25 @@ function step(clock) {
     deadBricks.forEach(function (brick) {
         Game.bricks.splice(brick, 1);
     });
+    
+    // game state
+    
+    elem('state').innerText = 'Score: ' + Game.score + ' Lives: ' + Game.lives;
+
+    if (Game.bricks.length === 0) {
+        alert("YOU WIN!");
+        return;
+    }
+    
+    if (Game.balls.length === 0) {
+        if (Game.lives <= 0) {
+            alert("GAME OVER");
+            return;
+        } else {
+            Game.lives -= 1;
+            Game.balls.push(new Ball(10, Game.screen.vmiddle, 0.3, 0.3));
+        }
+    }
 
     // render scene
 	
@@ -295,21 +320,10 @@ function step(clock) {
 
     Game.players.forEach(function (player) {
         player.draw(ctx);
-    });
+    });   
 
-    // game state
-    elem('state').innerText = 'Score: ' + Game.score + ' Lives: ' + Game.lives;
-
-    if (Game.balls.length == 0) {
-        if (Game.lives <= 0) {
-            alert("GAME OVER");
-            return;
-        } else {
-            Game.lives -= 1;
-            Game.balls.push(new Ball(10, Game.screen.vmiddle, 0.3, 0.3));
-        }
-    }
-
+    // prepare next step    
+    
     var wait = Math.max(0, Game.delay - clock.elapsedTime());
 
     var newClock = Clock.start();
@@ -328,7 +342,7 @@ function startGame() {
 
     Events.init();
 
-    var p = new Player(0, 0);
+    var p = new Player();
     p.x = Game.screen.hmiddle - p.w / 2;
     p.y = Game.screen.height - p.h - 5;
     Game.players.push(p);
