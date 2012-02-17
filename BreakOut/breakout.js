@@ -201,9 +201,6 @@ function step(clock) {
     var deadBalls = [];
     var deadBricks = [];
 
-    // clear scene
-    ctx.clearRect(0, 0, screen.width, screen.height); 
-
     // move units    
     
     Game.balls.forEach(function (ball) {
@@ -220,36 +217,6 @@ function step(clock) {
     for (var i = 0; i < numBalls; i++) {
         var ball = Game.balls[i];
     
-        // left and right walls
-        if (ball.left() <= 0 || screen.width <= ball.right()) {
-            ball.move(-dt);
-            ball.dx = -ball.dx;
-            ball.move(dt);
-        }
-
-        // top wall
-        if (ball.top() <= 0) {
-            ball.move(-dt);
-            ball.dy = -ball.dy;
-            ball.move(dt);
-        }
-
-        // bottom
-        if (screen.height <= ball.top() + 5) {
-            deadBalls.push(i);
-        }
-
-        // players
-        Game.players.forEach(function (player) {
-            if (player.y <= ball.bottom()) 
-                if (player.left() <= ball.x && ball.x <= player.right()) {
-                    ball.move(-dt);
-                    ball.dy = -ball.dy;
-                    ball.dx = sign(ball.x - player.middle()) * Math.abs(ball.dx);
-                    ball.move(dt);
-                }
-        });
-
         // bricks
         var numBricks = Game.bricks.length;
         for (var j = 0; j < numBricks; j++) {
@@ -281,18 +248,50 @@ function step(clock) {
                 deadBricks.push(j);
             }
         }
+    
+        // left and right walls
+        if (ball.left() <= 0 || screen.width <= ball.right()) {
+            ball.move(-dt);
+            ball.dx = -ball.dx;
+            ball.move(dt);
+        }
+
+        // top wall
+        if (ball.top() <= 0) {
+            ball.move(-dt);
+            ball.dy = -ball.dy;
+            ball.move(dt);
+        }
+
+        // bottom
+        if (screen.height <= ball.top() + 5) {
+            deadBalls.push(i);
+        }
+
+        // players
+        Game.players.forEach(function (player) {
+            if (player.y <= ball.bottom()) 
+                if (player.left() <= ball.x && ball.x <= player.right()) {
+                    ball.move(-dt);
+                    ball.dy = -ball.dy;
+                    ball.dx = sign(ball.x - player.middle()) * Math.abs(ball.dx);
+                    ball.move(dt);
+                }
+        });
     }
 
-    deadBalls.forEach(function (ball) {
-        Game.balls.splice(ball, 1);
-    });
+    while (deadBalls.length !== 0) {
+        Game.balls.splice(deadBalls.pop(), 1);
+    }
 
-    deadBricks.forEach(function (brick) {
-        Game.bricks.splice(brick, 1);
-    });
+    while (deadBricks.length !== 0) {
+        Game.bricks.splice(deadBricks.pop(), 1);
+    }    
         
     // render scene
 	
+    ctx.clearRect(0, 0, screen.width, screen.height); 
+
     Game.bricks.forEach(function (brick) {
         brick.draw(ctx);
     });
