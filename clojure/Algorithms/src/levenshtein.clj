@@ -63,15 +63,14 @@
                                    (d [(dec i) (dec j)])))))))
 
 (defn levenshtein-distance3 [source target]
-  (let [step (fn [d index] (dist-step pred d index))
-        pred (fn [index] (let [[i j] index]
+  (let [pred (fn [index] (let [[i j] index]
                            (=
                              (get source (dec i))
                              (get target (dec j)))))
+        step (fn [d index] (dist-step pred d index))
         n (count target)
         m (count source)]
-    ((reduce step {} (for [j (range n) i (range m)] [i j]))
-      [(map dec [m n])])))
+    ((reduce step {} (for [j (range n) i (range m)] [i j])) (map dec [m n]))))
 
 
 
