@@ -29,24 +29,49 @@
 
 ;; Version 2 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(def cost (memoize (fn [pred index] (let [[i j] index]
+(def dist (memoize (fn [pred index] (let [[i j] index]
                                       (cond
                                         (zero? (min i j)) (max i j)
-                                        (pred index) (cost pred [(dec i) (dec j)])
+                                        (pred index) (dist pred [(dec i) (dec j)])
                                         :else (inc (min
-                                                     (cost pred [(dec i) j])
-                                                     (cost pred [i (dec j)])
-                                                     (cost pred [(dec i) (dec j)]))))))))
+                                                     (dist pred [(dec i) j])
+                                                     (dist pred [i (dec j)])
+                                                     (dist pred [(dec i) (dec j)]))))))))
 
 (defn levenshtein-distance2 [source target]
-  (let [m (count source)
-        n (count target)
-        pred (fn [index] (let [[i j] index]
+  (let [pred (fn [index] (let [[i j] index]
                            (=
                              (get source (dec i))
                              (get target (dec j)))))]
-    (->> (for [j (range 0 n)
-               i (range 0 m)]
+    (->> (for [j (range (count target))
+               i (range (count source))]
            [i j])
-      (map (partial cost pred))
+      (map (partial dist pred))
       last)))
+
+
+;; Version 3 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defn dist-step [pred d index]
+  (let [[i j] index]
+    (assoc d [i j]
+      (if (zero? (min i j))
+        (max i j)
+        (+ (if (pred index) 0 1) (min
+                                   (d [(dec i) j])
+                                   (d [i (dec j)])
+                                   (d [(dec i) (dec j)])))))))
+
+(defn levenshtein-distance3 [source target]
+  (let [step (fn [d index] (dist-step pred d index))
+        pred (fn [index] (let [[i j] index]
+                           (=
+                             (get source (dec i))
+                             (get target (dec j)))))
+        n (count target)
+        m (count source)]
+    ((reduce step {} (for [j (range n) i (range m)] [i j]))
+      [(map dec [m n])])))
+
+
+
