@@ -51,16 +51,16 @@
 
 
 ;; Version 3 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 (defn dist-step [pred d index]
   (let [[i j] index]
     (assoc d [i j]
-      (if (zero? (min i j))
-        (max i j)
-        (+ (if (pred index) 0 1) (min
-                                   (d [(dec i) j])
-                                   (d [i (dec j)])
-                                   (d [(dec i) (dec j)])))))))
+      (cond
+        (zero? (min i j)) (max i j)
+        (pred index) (d [(dec i) (dec j)])
+        :else (inc (min
+                     (d [(dec i) j])
+                     (d [i (dec j)])
+                     (d [(dec i) (dec j)])))))))
 
 (defn levenshtein-distance3 [source target]
   (let [m (count source)
@@ -69,8 +69,11 @@
                            (=
                              (get source (dec i))
                              (get target (dec j)))))
-        step (fn [d index] (dist-step pred d index))]
-    ((reduce step {} (for [j (range n) i (range m)] [i j])) (map dec [m n]))))
+        step (partial dist-step pred)
+        dist (reduce step {} (for [j (range n) i (range m)] [i j]))]
+    (dist [(dec m) (dec n)])))
+
+(levenshtein-distance3 "sitting" "kitten")
 
 
 
